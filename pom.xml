@@ -7,7 +7,8 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>SinaScrapyManager Maven Webapp</name>
   <url>http://maven.apache.org</url>
-<properties>
+  
+  <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -93,11 +94,31 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-
     <dependency>
     	<groupId>mysql</groupId>
     	<artifactId>mysql-connector-java</artifactId>
     	<version>5.1.38</version>
     </dependency>
   </dependencies>
+  
+  <build>
+  	<plugins>
+  		<plugin>
+  		  <groupId>org.mybatis.generator</groupId>
+      	  <artifactId>mybatis-generator-maven-plugin</artifactId>
+          <version>1.3.2</version>
+          <dependencies>
+          	<dependency>
+          		<groupId>mysql</groupId>
+          		<artifactId>mysql-connector-java</artifactId>
+          		<version>5.1.38</version>
+          	</dependency>
+          </dependencies>
+          <configuration>
+            <configurationFile>${basedir}/src/main/resources/mybatis/generatorConfig.xml</configurationFile>
+            <overwrite>true</overwrite>
+          </configuration>
+  		</plugin>
+  	</plugins>
+  </build>
 </project>
