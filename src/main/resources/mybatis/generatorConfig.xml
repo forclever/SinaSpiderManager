@@ -9,24 +9,61 @@
             connectionURL="jdbc:mysql://localhost/weibo" userId="root" password="root">
     </jdbcConnection>
 
-    <javaModelGenerator targetPackage="com.qiqiao.ssm.dao.model" targetProject=".\src\main\java">
+    <javaModelGenerator targetPackage="com.qiqiao.ssm.dao.model" targetProject="src\main\java">
     	<property name="trimStrings" value="true" />
     </javaModelGenerator>
       
-    <sqlMapGenerator targetPackage="com.qiqiao.ssm.dao.mapper" targetProject=".\src\main\java" />
+    <sqlMapGenerator targetPackage="com.qiqiao.ssm.dao.mapper" targetProject="src\main\java" />
     
-    <javaClientGenerator targetPackage="com.qiqiao.ssm.dao.client" targetProject=".\src\main\java" type="XMLMAPPER" />
-    
-    <table schema="weibo" tableName="tweets" 
+    <javaClientGenerator targetPackage="com.qiqiao.ssm.dao.mapper" targetProject="src\main\java" type="XMLMAPPER" />
+
+    <table schema="weibo" tableName="sina_users" 
     	enableCountByExample="false"
 		enableUpdateByExample="false"  
 	    enableDeleteByExample="false"
-	    enableSelectByExample="true"
-		selectByExampleQueryId="false">
-     
-      <!-- generatedKey column="itemid" sqlStatement="select s_pubbgtdocpr.nextval as value from dual" identity="true" / -->
-      
-    </table>
+	    enableSelectByExample="false"
+		selectByExampleQueryId="false" />
     
+    <table schema="weibo" tableName="sys_logs" 
+		enableCountByExample="false"
+		enableUpdateByExample="false"  
+	    enableDeleteByExample="false"
+	    enableSelectByExample="false"
+		selectByExampleQueryId="false">
+		<generatedKey column="lid" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" />
+	</table>
+	<!-- for oracle: sqlStatement="select s_pubbgtdocpr.nextval as value from dual" -->
+    
+    <table schema="weibo" tableName="sys_params"
+    	enableCountByExample="false"
+		enableUpdateByExample="false"  
+	    enableDeleteByExample="false"
+	    enableSelectByExample="false"
+		selectByExampleQueryId="false">
+		<generatedKey column="pid" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" />
+	</table>
+    
+    <table schema="weibo" tableName="sys_users"
+		enableCountByExample="false"
+		enableUpdateByExample="false"  
+	    enableDeleteByExample="false"
+	    enableSelectByExample="false"
+		selectByExampleQueryId="false" />
+    
+    <table schema="weibo" tableName="tweet_users"
+    	enableCountByExample="false"
+		enableUpdateByExample="false"  
+	    enableDeleteByExample="false"
+	    enableSelectByExample="false"
+		selectByExampleQueryId="false" />
+    
+    <table schema="weibo" tableName="tweets"
+ 		enableCountByExample="false"
+		enableUpdateByExample="false"  
+	    enableDeleteByExample="false"
+	    enableSelectByExample="false"
+		selectByExampleQueryId="false">
+		<generatedKey column="tid" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" />
+	</table>
   </context>
 </generatorConfiguration>

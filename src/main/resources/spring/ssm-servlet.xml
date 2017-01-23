@@ -10,17 +10,47 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"> 
-		
+	
+	<!-- MyBatis数据配置 -->
+	<!-- Mapper XML映射文件自动扫描装载器  -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+ 		<property name="dataSource" ref="dataSource" />
+ 		<property name="configLocation" value="classpath:mybatis/mybatis-config.xml" />
+ 		<property name="mapperLocations">
+ 		    <list>
+ 				<value>classpath:com/qiqiao/ssm/dao/mapper/*.xml</value> 		        		        
+ 		    </list>
+ 		</property>
+	</bean>
+	
+	<!-- Mapper 类接口文件自动扫描注入器 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
+        <property name="basePackage" value="com.qiqiao.ssm.dao.mapper" />  
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+    </bean>
+    <!-- MyBatis数据配置 结束 -->
+    
+	<!-- 定义事务管理器  
+	 <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	     <property name="dataSource" ref="dataSource" /> 
+	 </bean>
+    -->
+    
+	<!-- 启用注释风格事务管理器   
+	<tx:annotation-driven transaction-manager="transactionManager" /> 
+	-->
+	
     <!--控制器搜索器-->
 	<mvc:annotation-driven />
 
-	<!-- 使用注解的bean注入器 -->
-	<context:component-scan base-package="com.fookcode.fchrm" />
-	<context:component-scan base-package="com.fookcode.fchrm.controller" />
+	<!-- 使用注解的bean自动扫描注入器 -->
+	<context:component-scan base-package="com.qiqiao.ssm" />
+	<context:component-scan base-package="com.qiqiao.ssm.controller" />
 	
+	<!-- Spring视图解释器 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/pages/"/>
-        <property name="suffix" value=".jsp"/>
+        <property name="prefix" value="/WEB-INF/pages/" />
+        <property name="suffix" value=".jsp" />
     </bean>
 
 	<!--
@@ -36,4 +66,11 @@
         </property>
     </bean>
     -->
+
+	<!--
+	<bean id="sinaUserMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	  <property name="mapperInterface" value="com.qiqiao.ssm.dao.mapper.SinaUsersMapper" />
+	  <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	 -->
 </beans>

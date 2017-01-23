@@ -27,26 +27,7 @@
 		</property>
 	</bean>
 
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
- 		<property name="dataSource" ref="dataSource" />
- 		<property name="configLocation" value="classpath:mybatis/mybatis-config.xml" />
- 		<property name="mapperLocations">
- 		    <list>
- 				<!-- value>classpath:com/hoo/resultmap/**/*-resultmap.xml</value --> 		        
- 		        
- 		    </list>
- 		</property>
-	</bean>
-	
-	<!-- 定义事务管理器  
-	 <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-	     <property name="dataSource" ref="dataSource" /> 
-	 </bean>
-    -->
-    
-	<!-- 启用注释风格事务管理器   
-	<tx:annotation-driven transaction-manager="transactionManager" /> 
-	
+    <!-- 	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
  		<property name="dataSource" ref="dataSource" />
  		<property name="configLocation" value="classpath:mybatis/mybatis-config.xml" />
