@@ -8,12 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.qiqiao.ssm.bpo.SsmService;
 import com.qiqiao.ssm.dao.model.LoginResult;
 import com.qiqiao.ssm.dao.model.SysUsers;
+import com.qiqiao.ssm.service.SsmService;
+import com.qiqiao.ssm.dao.model.ChPwdParam;
 
 @Controller
 public class SsmController {
@@ -41,29 +41,11 @@ public class SsmController {
 
 	}
 	
-	class temp {
-		public String suid;
-		public String pwd;
-		
-		public String getSuid() {
-			return suid;
-		}
-		public void setSuid(String suid) {
-			this.suid = suid;
-		}
-		public String getPwd() {
-			return pwd;
-		}
-		public void setPwd(String pwd) {
-			this.pwd = pwd;
-		}
-	}
-	
 	@RequestMapping(value="cp", method=RequestMethod.POST)
-	public @ResponseBody int changePassword(@RequestBody temp t) {
+	public @ResponseBody int changePassword(@RequestBody ChPwdParam cpp) {
 		int result = 0;
-		if ((!t.suid.equals("")) && (!t.pwd.equals(""))) {
-			result = ssmService.sysChangePassword(t.suid, t.pwd);
+		if ((!cpp.suid.equals("")) && (!cpp.pwd.equals(""))) {
+			result = ssmService.sysChangePassword(cpp.suid, cpp.pwd);
 		}
 		return result;
 	}

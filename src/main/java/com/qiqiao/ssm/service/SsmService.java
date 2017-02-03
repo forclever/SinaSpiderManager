@@ -1,4 +1,4 @@
-package com.qiqiao.ssm.bpo;
+package com.qiqiao.ssm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,7 +64,7 @@ public class SsmService {
 		SysUsers user = new SysUsers();
 		user.setSuid(suid);
 		user.setPwd(pwd);
-		return sysUsersMapper.updateByPrimaryKey(user);
+		return sysUsersMapper.updateByPrimaryKeySelective(user);
 	}
 	
 }
