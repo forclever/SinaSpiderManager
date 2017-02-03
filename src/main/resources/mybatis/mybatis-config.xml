@@ -8,7 +8,6 @@
   <!-- 别名 --> 
   <typeAliases> 
    	 <!-- typeAlias type="cn.gov.mof.fbms.system.user.entity.TSysUserDTO" alias="TSysUserDTO"/ --> 
-     <typeAlias type="com.qiqiao.ssm.dao.mapper.SinaUsersMapper" alias="TSinaUsersDTO" />
   </typeAliases> 
 
 </configuration> 
