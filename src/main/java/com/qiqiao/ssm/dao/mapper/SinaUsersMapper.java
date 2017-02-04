@@ -1,5 +1,9 @@
 package com.qiqiao.ssm.dao.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.qiqiao.ssm.dao.model.SinaUsers;
 
 public interface SinaUsersMapper {
@@ -50,4 +54,7 @@ public interface SinaUsersMapper {
      * @mbggenerated Mon Jan 23 11:30:55 CST 2017
      */
     int updateByPrimaryKey(SinaUsers record);
+    
+    List<SinaUsers> selectByRowBounds(@Param("offset") Integer offset, @Param("status") Integer status);
+
 }

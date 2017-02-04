@@ -225,4 +225,7 @@
       Uname = #{uname,jdbcType=VARCHAR}
     where uid = #{uid,jdbcType=VARCHAR}
   </update>
+  <select id="selectCount" resultType="int">
+  	select count(*) from tweet_users
+  </select>
 </mapper>

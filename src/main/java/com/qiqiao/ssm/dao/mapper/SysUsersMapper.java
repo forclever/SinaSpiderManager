@@ -1,5 +1,7 @@
 package com.qiqiao.ssm.dao.mapper;
 
+import java.util.List;
+
 import com.qiqiao.ssm.dao.model.SysUsers;
 
 public interface SysUsersMapper {
@@ -50,4 +52,6 @@ public interface SysUsersMapper {
      * @mbggenerated Mon Jan 23 11:30:55 CST 2017
      */
     int updateByPrimaryKey(SysUsers record);
+    
+    List<SysUsers> selectByRowBounds(int offset);
 }

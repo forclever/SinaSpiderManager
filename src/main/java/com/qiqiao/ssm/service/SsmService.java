@@ -1,12 +1,20 @@
 package com.qiqiao.ssm.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.qiqiao.ssm.dao.mapper.SinaUsersMapper;
+import com.qiqiao.ssm.dao.mapper.SysLogsMapper;
 import com.qiqiao.ssm.dao.mapper.SysUsersMapper;
+import com.qiqiao.ssm.dao.mapper.TweetUsersMapper;
+import com.qiqiao.ssm.dao.mapper.TweetsMapper;
 import com.qiqiao.ssm.dao.model.LoginResult;
+import com.qiqiao.ssm.dao.model.SinaUsers;
+import com.qiqiao.ssm.dao.model.SysLogs;
 import com.qiqiao.ssm.dao.model.SysUsers;
+import com.qiqiao.ssm.dao.model.Tweets;
 
 @Service
 public class SsmService {
@@ -19,7 +27,16 @@ public class SsmService {
 	private SysUsersMapper sysUsersMapper;
 	
 	@Autowired
-	private SinaUsersMapper sinaUserMapper;
+	private TweetsMapper tweetsMapper;
+	
+	@Autowired
+	private TweetUsersMapper tweetUsersMapper;
+	
+	@Autowired
+	private SysLogsMapper sysLogsMapper;
+	
+	@Autowired
+	private SinaUsersMapper sinaUsersMapper;
 	
 	//系统用户登录校验过程
 	public LoginResult sysLogin(String suid, String Pwd) {
@@ -60,6 +77,7 @@ public class SsmService {
 		return result;
 	}
 	
+	//修改系统用户密码
 	public int sysChangePassword(String suid, String pwd) {
 		SysUsers user = new SysUsers();
 		user.setSuid(suid);
@@ -67,4 +85,44 @@ public class SsmService {
 		return sysUsersMapper.updateByPrimaryKeySelective(user);
 	}
 	
+	//获取用户总数量
+	public int getUserCount() {
+		return tweetUsersMapper.selectCount();
+	}
+	
+	//获取博文总数量
+	public int getTweetCount() {
+		return tweetsMapper.selectCount();
+	}
+	
+	//获取时间段内博文记录
+	public List<Tweets> getPostByTime(String startTime, String endTime) {
+		return tweetsMapper.selectByTime(startTime, endTime);
+	}
+	
+	//获取系统日志，pagenum，页数，从1开始
+	public List<SysLogs> getSysLog(int pagenum) {
+		List<SysLogs> result = null;
+		if (pagenum > 0)
+			result = sysLogsMapper.selectByRowBounds((pagenum -1) * 10);
+		return result;
+	}
+	
+	//获取系统用户
+	public List<SysUsers> getSysUser(int pagenum) {
+		List<SysUsers> result = null;
+		if (pagenum > 0)
+			result = sysUsersMapper.selectByRowBounds((pagenum -1) * 8);
+		return result;
+	}
+	
+	//删除系统用户
+	public void deleteSysUser(String suid) {
+		sysUsersMapper.deleteByPrimaryKey(suid);
+	}
+	
+	//status： 1未使用，0已使用，-1参数忽略
+	public List<SinaUsers> getSinaUser(int pagenum, int status) {
+		return sinaUsersMapper.selectByRowBounds((pagenum -1) * 8, status);
+	}
 }

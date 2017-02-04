@@ -1,5 +1,9 @@
 package com.qiqiao.ssm.dao.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.qiqiao.ssm.dao.model.Tweets;
 
 public interface TweetsMapper {
@@ -50,4 +54,8 @@ public interface TweetsMapper {
      * @mbggenerated Mon Jan 23 11:30:55 CST 2017
      */
     int updateByPrimaryKey(Tweets record);
+    
+    int selectCount();
+    
+    List<Tweets> selectByTime(@Param("startTime") String startTime, @Param("endTime") String endTime);
 }

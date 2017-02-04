@@ -1,5 +1,7 @@
 package com.qiqiao.ssm.dao.mapper;
 
+import java.util.List;
+
 import com.qiqiao.ssm.dao.model.SysLogs;
 
 public interface SysLogsMapper {
@@ -50,4 +52,6 @@ public interface SysLogsMapper {
      * @mbggenerated Mon Jan 23 11:30:55 CST 2017
      */
     int updateByPrimaryKey(SysLogs record);
+    
+    List<SysLogs> selectByRowBounds(Integer offset);
 }

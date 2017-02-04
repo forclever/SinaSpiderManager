@@ -13,10 +13,10 @@
 		//alert("JSON String: " + JSON.stringify(sysUsers));
 		//alert("JSON Object: " + sysUsers);
 		$.ajax({
-			type:"POST",
-			url: "cp.do",
-			contentType: "application/json;charset=UTF-8",
-			data: JSON.stringify(sysUsers),
+			type:"GET",
+			url: "sinauser.do?pagenum=1",
+			//contentType: "application/json;charset=UTF-8",
+			//data: JSON.stringify(sysUsers),
 			//dataType:"text;char",
 			success: function(data) {
 				alert(data);

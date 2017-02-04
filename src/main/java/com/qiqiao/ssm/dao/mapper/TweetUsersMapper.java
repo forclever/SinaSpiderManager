@@ -50,4 +50,6 @@ public interface TweetUsersMapper {
      * @mbggenerated Mon Jan 23 11:30:55 CST 2017
      */
     int updateByPrimaryKey(TweetUsers record);
+    
+    int selectCount();
 }

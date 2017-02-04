@@ -190,4 +190,17 @@
       Rumor = #{rumor,jdbcType=BIT}
     where tid = #{tid,jdbcType=BIGINT}
   </update>
+  <select id="selectCount" resultType="int">
+  	select count(*) from tweets
+  </select>
+  
+  <select id="selectByTime" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from tweets
+  	<![CDATA[
+  	where str_to_date(Time,'%Y-%m-%d') > str_to_date(#{startTime, jdbcType=VARCHAR},'%Y-%m-%d') and
+	str_to_date(Time,'%Y-%m-%d') < str_to_date(#{endTime, jdbcType=VARCHAR},'%Y-%m-%d')
+    ]]>
+  </select>
 </mapper>

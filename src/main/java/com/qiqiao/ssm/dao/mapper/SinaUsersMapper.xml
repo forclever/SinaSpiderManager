@@ -119,4 +119,12 @@
       Reason = #{reason,jdbcType=VARCHAR}
     where sid = #{sid,jdbcType=VARCHAR}
   </update>
+  <select id="selectByRowBounds" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from sina_users limit #{offset, jdbcType=INTEGER}, 8
+  	<if test="status != -1">
+        where avaiable = #{status, jdbcType=INTEGER}
+    </if> 	
+  </select>
 </mapper>
