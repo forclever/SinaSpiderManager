@@ -174,6 +174,18 @@ public class SsmController {
 	}
 	
 
+	@RequestMapping(value="start", method=RequestMethod.POST)
+	public @ResponseBody int startScrapy() {
+		Runtime rt = Runtime.getRuntime();
+	    try {
+	        rt.exec(new String[] {"cmd.exe", "/c", "start", "python"});
+
+	    } catch (IOException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+	    }
+		return 0;
+	}
 	
 	
 }

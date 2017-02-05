@@ -13,8 +13,8 @@
 		//alert("JSON String: " + JSON.stringify(sysUsers));
 		//alert("JSON Object: " + sysUsers);
 		$.ajax({
-			type:"GET",
-			url: "sinauser.do?pagenum=1",
+			type:"POST",
+			url: "start.do",
 			//contentType: "application/json;charset=UTF-8",
 			//data: JSON.stringify(sysUsers),
 			//dataType:"text;char",
