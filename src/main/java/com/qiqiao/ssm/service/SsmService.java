@@ -26,6 +26,10 @@ public class SsmService {
 	public final static int LOGIN_FAILURE_NOUSER = 1;
 	public final static int LOGIN_FAILURE_ERRPWD = 2;
 	
+	public final static int TABLE_SYSLOGS = 1;
+	public final static int TABLE_SYSUSERS = 2;
+	public final static int TABLE_SINAUSERS = 3;
+	
 	@Autowired
 	private SysUsersMapper sysUsersMapper;
 	
@@ -108,6 +112,21 @@ public class SsmService {
 		List<SysLogs> result = null;
 		if (pagenum > 0)
 			result = sysLogsMapper.selectByRowBounds((pagenum -1) * 10);
+		return result;
+	}
+	
+	public int getPageCount(int type) {
+		int result = 0;
+		switch(type) {
+			case TABLE_SYSLOGS:
+				break;
+			case TABLE_SYSUSERS:
+				 
+				break;
+			case TABLE_SINAUSERS:
+				
+				break;
+		}
 		return result;
 	}
 	
