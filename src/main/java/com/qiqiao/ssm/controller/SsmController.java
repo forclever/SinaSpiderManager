@@ -34,7 +34,6 @@ public class SsmController {
 	 * 功能说明：首页
 	 * 输入参数: 无
 	 * 输出结果：  无
-	 * 
 	 * ************************************************************************/
 	@RequestMapping(value="index")
 	public String welcome(){
@@ -66,7 +65,6 @@ public class SsmController {
 	 * 功能说明： 修改密码
 	 * 输入参数: JSON， {"suid": "xxx", "pwd": "xxx"}，suid为需要修改的用户编码，pwd为新的密码值（明码）
 	 * 输出结果： 整数值，1为修改成功。
-	 * 
 	 * ************************************************************************/
 	@RequestMapping(value="cp", method=RequestMethod.POST)
 	public @ResponseBody int changePassword(@RequestBody ChPwdParam cpp) {
@@ -84,7 +82,6 @@ public class SsmController {
 	 * 功能说明：删除系统用户
 	 * 输入参数: suid为用户ID
 	 * 输出结果：无
-	 * 
 	 * ************************************************************************/
 	@RequestMapping(value="du", method=RequestMethod.POST)
 	public void delSysUsers(@RequestParam String suid) throws IOException {
@@ -96,8 +93,7 @@ public class SsmController {
 	 * 功能地址： usercount.do （GET）
 	 * 功能说明： 获取微博用户总数
 	 * 输入参数: 无
-	 * 输出结果： 总数值
-	 * 
+	 * 输出结果：整型，总数值
 	 * ************************************************************************/
 	@RequestMapping(value="usercount", method=RequestMethod.GET)
 	public @ResponseBody int getUserCount() {		
@@ -108,8 +104,7 @@ public class SsmController {
 	 * 功能地址：tweetcount.do （GET）
 	 * 功能说明： 获取微博文章总数
 	 * 输入参数: 无
-	 * 输出结果：总数值。
-	 * 
+	 * 输出结果：整型，总数值。
 	 * ************************************************************************/
 	@RequestMapping(value="tweetcount", method=RequestMethod.GET)
 	public @ResponseBody int getTweetCount() {
@@ -121,8 +116,7 @@ public class SsmController {
 	 * 功能地址：postbytime.do?startTime=yyyy-mm-dd&endTime=yyyy-mm-dd （GET）
 	 * 功能说明： 获取时间段内微博文章列表
 	 * 输入参数: startTime和endTime，两个参数都为必选
-	 * 输出结果：微博文章数据JSON数组
-	 * 
+	 * 输出结果：微博文章数据JSON数组，字段参见tweets表
 	 * ************************************************************************/
 	@RequestMapping(value="postbytime", method=RequestMethod.GET, produces="application/text;charset=UTF-8")
 	public @ResponseBody String getPostByTime(@RequestParam String startTime, @RequestParam String endTime) throws IOException {
@@ -134,10 +128,9 @@ public class SsmController {
 	 * 功能地址：syslog.do?pagenum=n （GET）
 	 * 功能说明： 获取某一页的日志数据，按UI原型固定每页10条
 	 * 输入参数: pagenum整型从1开始，必选参数
-	 * 输出结果：日志数据JSON数组
-	 * 
+	 * 输出结果：日志数据JSON数组，字段参见syslogs表
 	 * ************************************************************************/
-	@RequestMapping(value="syslog", method=RequestMethod.GET, produces="application/text;charset=UTF-8")
+	@RequestMapping(value="sys_logs", method=RequestMethod.GET, produces="application/text;charset=UTF-8")
 	public @ResponseBody String getSysLogs(@RequestParam Integer pagenum) throws IOException {
 		if (pagenum == null) return "";
 		List<SysLogs> logs = ssmService.getSysLog(pagenum);
@@ -148,10 +141,9 @@ public class SsmController {
 	 * 功能地址：sysuser.do?pagenum=n （GET）
 	 * 功能说明： 获取某一页的系统用户数据，按UI原型固定每页8条
 	 * 输入参数: pagenum整型从1开始，必选参数
-	 * 输出结果：用户数据JSON数组
-	 * 
+	 * 输出结果：用户数据JSON数组，字段参见sysusers表
 	 * ************************************************************************/
-	@RequestMapping(value="sysuser", method=RequestMethod.GET, produces="application/text;charset=UTF-8")
+	@RequestMapping(value="sy_suser", method=RequestMethod.GET, produces="application/text;charset=UTF-8")
 	public @ResponseBody String getSysUsers(@RequestParam Integer pagenum) throws IOException {
 		if (pagenum == null) return "";
 		List<SysUsers> logs = ssmService.getSysUser(pagenum);
@@ -163,8 +155,7 @@ public class SsmController {
 	 * 功能说明： 获取某一页的新浪微博用户数据，按UI原型固定每页8条
 	 * 输入参数: pagenum整型从1开始，必选参数；
 	 *        status整型，用户状态：1未使用，0已使用，-1为所有。可选参数，不设置时默认为-1
-	 * 输出结果：微博用户数据JSON数组
-	 * 
+	 * 输出结果：微博用户数据JSON数组，字段参见tweet_users表
 	 * ************************************************************************/
 	@RequestMapping(value="sinauser", method=RequestMethod.GET, produces="application/text;charset=UTF-8")
 	public @ResponseBody String getSinaUsers(@RequestParam Integer pagenum, @RequestParam(required=false) Integer status) throws IOException {
@@ -173,18 +164,24 @@ public class SsmController {
 		return this.BeanToJson(sinaUsers==null?"":sinaUsers);
 	}
 	
-
-	@RequestMapping(value="start", method=RequestMethod.POST)
-	public @ResponseBody int startScrapy() {
-		Runtime rt = Runtime.getRuntime();
-	    try {
-	        rt.exec(new String[] {"cmd.exe", "/c", "start", "python"});
-
-	    } catch (IOException e) {
-	        // TODO Auto-generated catch block
-	        e.printStackTrace();
-	    }
-		return 0;
+	/**************************************************************************
+	 * 功能地址：start.do （GET）
+	 * 功能说明： 启动爬虫程序
+	 * 输入参数: 无
+	 * 输出结果：整形值，0：启动失败，1：启动成功，2：爬虫程序已在运行中
+	 * ************************************************************************/
+	@RequestMapping(value="start", method=RequestMethod.GET)
+	public @ResponseBody int startScrapy() throws IOException {
+		int result = 0;
+		if (ssmService.isScrapyRun()) {
+			result =2;
+		}
+		else {
+			Runtime rt = Runtime.getRuntime();
+		    Process p = rt.exec(new String[] {"cmd", "/c", "start", "python"});
+		    if (p != null) result = 1;
+		}
+		return result;
 	}
 	
 	

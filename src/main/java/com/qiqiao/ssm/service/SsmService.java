@@ -1,5 +1,8 @@
 package com.qiqiao.ssm.service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,5 +127,27 @@ public class SsmService {
 	//status： 1未使用，0已使用，-1参数忽略
 	public List<SinaUsers> getSinaUser(int pagenum, int status) {
 		return sinaUsersMapper.selectByRowBounds((pagenum -1) * 8, status);
+	}
+	
+	public boolean isScrapyRun() throws IOException {
+		boolean result = false;
+		final String python = "python.exe";
+		Process process = null;
+
+		Runtime rt = Runtime.getRuntime();
+		process = rt.exec(new String[] {"cmd", "/c", "tasklist"});			
+
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+		String pLine = null;
+
+		while((pLine = br.readLine()) != null) {
+			if (pLine.toLowerCase().contains(python)) {
+				result = true;
+				break;
+			}
+		}		
+
+		return result;
 	}
 }
