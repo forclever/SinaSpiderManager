@@ -131,11 +131,16 @@ public class SsmController {
 	 * 输入参数: pagenum整型从1开始，必选参数
 	 * 输出结果：日志数据JSON数组，字段参见syslogs表
 	 * ************************************************************************/
-	@RequestMapping(value="sys_logs", method=RequestMethod.GET, produces="application/text;charset=UTF-8")
+	@RequestMapping(value="syslog", method=RequestMethod.GET, produces="application/text;charset=UTF-8")
 	public @ResponseBody String getSysLogs(@RequestParam Integer pagenum) throws IOException {
 		if (pagenum == null) return "";
 		List<SysLogs> logs = ssmService.getSysLog(pagenum);
 		return this.BeanToJson(logs==null?"":logs);
+	}
+	
+	@RequestMapping(value="syslogpagecount", method=RequestMethod.GET)
+	public @ResponseBody int getSysLogsPageCount() {
+		return 2;
 	}
 	
 	/**************************************************************************
@@ -144,11 +149,16 @@ public class SsmController {
 	 * 输入参数: pagenum整型从1开始，必选参数
 	 * 输出结果：用户数据JSON数组，字段参见sysusers表
 	 * ************************************************************************/
-	@RequestMapping(value="sy_suser", method=RequestMethod.GET, produces="application/text;charset=UTF-8")
+	@RequestMapping(value="sysuser", method=RequestMethod.GET, produces="application/text;charset=UTF-8")
 	public @ResponseBody String getSysUsers(@RequestParam Integer pagenum) throws IOException {
 		if (pagenum == null) return "";
 		List<SysUsers> logs = ssmService.getSysUser(pagenum);
 		return this.BeanToJson(logs==null?"":logs);
+	}
+	
+	@RequestMapping(value="sysuserpagecount", method=RequestMethod.GET)
+	public @ResponseBody int getSysUsersPageCount() {
+		return 2;
 	}
 	
 	/**************************************************************************
@@ -163,6 +173,11 @@ public class SsmController {
 		if (status == null) status = -1;
 		List<SinaUsers> sinaUsers = ssmService.getSinaUser(pagenum, status);
 		return this.BeanToJson(sinaUsers==null?"":sinaUsers);
+	}
+	
+	@RequestMapping(value="sinauserpagecount", method=RequestMethod.GET)
+	public @ResponseBody int getSinaUsersPageCount() {
+		return 2;
 	}
 	
 	/**************************************************************************
