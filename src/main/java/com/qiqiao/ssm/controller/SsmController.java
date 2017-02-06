@@ -39,7 +39,8 @@ public class SsmController {
 	public String welcome(){
 		return "index";
 	}
-	
+
+
 	/**************************************************************************
 	 * 功能地址： login.do （POST）
 	 * 功能说明： 系统登录
@@ -49,7 +50,7 @@ public class SsmController {
 	 *        UserName为登录成功后用户名称
 	 * 注：所有密码为明码，未加密处理。
 	 * ************************************************************************/
-	@RequestMapping(value="login", method=RequestMethod.POST, produces="application/text;charset=UTF-8")
+	@RequestMapping(value="login", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public @ResponseBody String sysLogin(@RequestBody SysUsers sysUsers) throws IOException {
 
 		LoginResult result = null;
