@@ -157,7 +157,9 @@
   <select id="selectByRowBounds" parameterType="java.lang.Integer" resultMap="BaseResultMap">
   	select
   	<include refid="Base_Column_List" />
-  	from sys_logs limit #{offset, jdbcType=INTEGER}, 10 
-  	where msgtype='INFO'
+  	from sys_logs 
+  	where msgtype='INFO'	
+  	limit #{offset, jdbcType=INTEGER}, 10 
+  	
   </select>
 </mapper>
