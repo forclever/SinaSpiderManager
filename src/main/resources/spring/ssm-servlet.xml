@@ -23,12 +23,12 @@
  		</property>
 	</bean>
 	
-	<!-- Mapper 类接口文件自动扫描注入器 -->
+	<!-- Mapper 类接口文件自动扫描注入器 (方式2)  
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
         <property name="basePackage" value="com.qiqiao.ssm.dao.mapper" />  
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
     </bean>
-    <!-- MyBatis数据配置 结束 -->
+    MyBatis数据配置 结束 -->
     
 	<!-- 定义事务管理器  
 	 <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
