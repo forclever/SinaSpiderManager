@@ -111,7 +111,7 @@
   <select id="selectByRowBounds" parameterType="java.lang.Integer" resultMap="BaseResultMap">
   	select
   	<include refid="Base_Column_List" />
-  	from sys_users limit #{offset, jdbcType=INTEGER}, 8 
+  	from sys_users order by suid asc limit #{offset, jdbcType=INTEGER}, 8 
   </select>
   <select id="selectCount" resultType="java.lang.Integer">
     select count(*) from sys_users

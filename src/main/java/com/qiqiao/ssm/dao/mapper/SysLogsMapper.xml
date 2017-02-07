@@ -159,8 +159,8 @@
   	<include refid="Base_Column_List" />
   	from sys_logs 
   	where msgtype='INFO'	
-  	limit #{offset, jdbcType=INTEGER}, 10 
-  	
+  	order by logtime desc
+  	limit #{offset, jdbcType=INTEGER}, 10
   </select>
   
   <select id="selectCount" resultType="java.lang.Integer">
