@@ -88,12 +88,28 @@ public class SsmController {
 	 * 功能地址：du.do?suid=xxx （POST）
 	 * 功能说明：删除系统用户
 	 * 输入参数: suid为用户ID
-	 * 输出结果：无
+	 * 输出结果：1为删除成功
 	 * ************************************************************************/
 	@RequestMapping(value="du", method=RequestMethod.POST)
-	public void delSysUsers(@RequestParam String suid) throws IOException {
+	public @ResponseBody int delSysUsers(@RequestParam String suid) throws IOException {
+		int result = 0;
 		if ((suid != null) && (!suid.isEmpty()))
-			ssmService.deleteSysUser(suid);
+			result = ssmService.deleteSysUser(suid);
+		return result;
+	}
+	
+	/**************************************************************************
+	 * 功能地址：au.do （POST）
+	 * 功能说明：新增系统用户
+	 * 输入参数: SysUsers对象，{"suid": "id", "suname": "name", "pwd": "password"}
+	 * 输出结果： 1为新增成功
+	 * ************************************************************************/
+	@RequestMapping(value="au", method=RequestMethod.POST)
+	public @ResponseBody int addSysUsers(@RequestBody SysUsers sysUser) throws IOException {
+		int result = 0;
+		if (sysUser != null)
+			result = ssmService.addSysUser(sysUser);
+		return result;
 	}
 	
 	/**************************************************************************

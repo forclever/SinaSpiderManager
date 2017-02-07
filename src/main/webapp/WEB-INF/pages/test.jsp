@@ -8,18 +8,19 @@
 <script type="text/javascript">
 	function testAjax() {
 		var sysUsers=Object();
-		sysUsers.suid="Admin";
+		sysUsers.suid="Admin3";
+		sysUsers.suname="另一个测试3"
 		sysUsers.pwd="1234";
-		//alert("JSON String: " + JSON.stringify(sysUsers));
+		alert("JSON String: " + JSON.stringify(sysUsers));
 		//alert("JSON Object: " + sysUsers);
 		$.ajax({
-			type:"GET",
-			url: "sinauser.do?pagenum=1",
-			//contentType: "application/json;charset=UTF-8",
-			//data: '{"suid":"Admin", "pwd":"123"}',
+			type:"POST",
+			url: "au.do",
+			contentType: "application/json;charset=UTF-8",
+			data: JSON.stringify(sysUsers),
 			//dataType:"application/json;charset=UTF-8",
 			success: function(data) {
-				alert(JSON.stringify(data));
+				alert(data);
 				},
 			error: function() {alert("error")}
 		}); 
