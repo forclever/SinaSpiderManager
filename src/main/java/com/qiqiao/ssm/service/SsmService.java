@@ -146,7 +146,12 @@ public class SsmService {
 	
 	//删除系统用户
 	public int deleteSysUser(String suid) {
-		return sysUsersMapper.deleteByPrimaryKey(suid);
+		int result = 0;
+		if ((suid != null) && (suid.toLowerCase().equals("admin")))
+			result = 2;
+		else
+			result = sysUsersMapper.deleteByPrimaryKey(suid);
+		return result;
 	}
 	
 	//status： 1未使用，0已使用，-1参数忽略
