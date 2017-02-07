@@ -24,6 +24,8 @@ import com.qiqiao.ssm.service.SsmService;
 public class SsmController {
 	@Autowired
 	private SsmService ssmService;
+	
+	private static Process scrapyProcess = null;
 
 	public String BeanToJson(Object obj) throws IOException {  
 		ObjectMapper objectMap = new ObjectMapper();			
@@ -222,10 +224,24 @@ public class SsmController {
 		}
 		else {
 			Runtime rt = Runtime.getRuntime();
-		    Process p = rt.exec(new String[] {"cmd", "/c", "start", "python"});
-		    if (p != null) result = 1;
+		    scrapyProcess = rt.exec(new String[] {"cmd", "/c", "start", "python"});
+		    if (scrapyProcess != null) result = 1;
 		}
 		return result;
+	}
+	
+	/**************************************************************************
+	 * 功能地址：cancel.do （POST）
+	 * 功能说明： 停止爬虫程序
+	 * 输入参数: 无
+	 * 输出结果：  无
+	 * ************************************************************************/
+	@RequestMapping(value="cancel", method=RequestMethod.POST)
+	public void cancelScrapy() {
+		if (scrapyProcess != null) {
+			scrapyProcess.destroy();
+			scrapyProcess = null;
+		}
 	}
 	
 	
