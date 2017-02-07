@@ -177,6 +177,11 @@ public class SsmService {
 	}
 	
 	public int addSysUser(SysUsers sysUser) {
-		return sysUsersMapper.insert(sysUser);
+		int result = 0;
+		SysUsers user = sysUsersMapper.selectByPrimaryKey(sysUser.getSuid());
+		if (user != null)
+			result=  sysUsersMapper.insert(sysUser);
+		else result = 2;
+		return result;
 	}
 }

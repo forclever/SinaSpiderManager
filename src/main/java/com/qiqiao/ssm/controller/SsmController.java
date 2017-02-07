@@ -102,7 +102,7 @@ public class SsmController {
 	 * 功能地址：au.do （POST）
 	 * 功能说明：新增系统用户
 	 * 输入参数: SysUsers对象，{"suid": "id", "suname": "name", "pwd": "password"}
-	 * 输出结果： 1为新增成功
+	 * 输出结果： 1：为新增成功, 2：关键字suid已存在，0：新增不成功，数据内容有误
 	 * ************************************************************************/
 	@RequestMapping(value="au", method=RequestMethod.POST)
 	public @ResponseBody int addSysUsers(@RequestBody SysUsers sysUser) throws IOException {
