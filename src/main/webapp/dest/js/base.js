@@ -99,3 +99,15 @@ var isinputnull = {
         return flag
     }
 };
+var formatTemplate = function(data, tmpl) {
+    var format = {
+        name: function(x) {
+            return x
+        }
+    };
+    return tmpl.replace(/{(\w+)}/g,
+        function(m1, m2) {
+            if (!m2) return "";
+            return (format && format[m2]) ? format[m2](data[m2]) : data[m2]
+        })
+};

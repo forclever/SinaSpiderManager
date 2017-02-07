@@ -237,7 +237,7 @@ public class SsmController {
 	 * 输出结果：  无
 	 * ************************************************************************/
 	@RequestMapping(value="cancel", method=RequestMethod.POST)
-	public void cancelScrapy() {
+	public @ResponseBody void cancelScrapy() {
 		if (scrapyProcess != null) {
 			scrapyProcess.destroy();
 			scrapyProcess = null;
