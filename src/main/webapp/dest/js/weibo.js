@@ -332,6 +332,14 @@ wb.main={
                         $(".mcd-hd").removeClass("mcd-s-0 mcd-s-2").addClass("mcd-s-1");
                         $(".mc-stxt").text("数据抓取中");
                     }
+                    $('#iptStart').jeDate({
+                        isinitVal:true,
+                        format: 'YYYY-MM-DD' // 分隔符可以任意定义，该例子表示只显示年月
+                    });
+                    $('#iptEnd').jeDate({
+                        isinitVal:true,
+                        format: 'YYYY-MM-DD' // 分隔符可以任意定义，该例子表示只显示年月
+                    });
                     break;
                 case 1:
                     var log=$("#mc1").html();

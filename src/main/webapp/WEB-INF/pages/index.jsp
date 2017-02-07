@@ -259,36 +259,6 @@
 <script>
     (function(){
         wb.login.init();
-        var start = {
-            dateCell: '#iptStart',
-            format: 'YYYY-MM-DD',
-            minDate: '2015-10-16', //设定最小日期为当前日期
-            isinitVal:true,
-            festival:true,
-            maxDate: '2099-06-16', //最大日期
-            isTime: true,
-            choosefun: function(elem,datas){
-                end.minDate = datas; //开始日选好后，重置结束日的最小日期
-            }
-        };
-        var end = {
-            dateCell: '#iptEnd',
-            format: 'YYYY-MM-DD',
-            minDate: jeDate.now(0),//, //设定最小日期为当前日期
-            isinitVal:true,
-            festival:true,
-            maxDate: '2099-06-16', //最大日期
-            isTime: true,
-            choosefun: function(elem,datas){
-                start.maxDate = datas; //将结束日的初始值设定为开始日的最大日期
-            },
-            okfun:function(){
-
-            }
-        };
-        jeDate(start);
-        jeDate(end);
-
     })();
 </script>
 </body>
