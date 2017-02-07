@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qiqiao.ssm.dao.model.ChPwdParam;
 import com.qiqiao.ssm.dao.model.LoginResult;
+import com.qiqiao.ssm.dao.model.ResultWithPageInfo;
 import com.qiqiao.ssm.dao.model.SinaUsers;
 import com.qiqiao.ssm.dao.model.SysLogs;
 import com.qiqiao.ssm.dao.model.SysUsers;
@@ -28,6 +29,11 @@ public class SsmController {
 		ObjectMapper objectMap = new ObjectMapper();			
 		return objectMap.writeValueAsString(obj);
 	} 
+	
+	@RequestMapping(value="test")
+	public String test() {
+		return "test";
+	}
 	
 	/**************************************************************************
 	 * 功能地址：index.do （GET）
@@ -98,7 +104,7 @@ public class SsmController {
 	 * ************************************************************************/
 	@RequestMapping(value="usercount", method=RequestMethod.GET)
 	public @ResponseBody int getUserCount() {		
-		return ssmService.getUserCount();
+		return ssmService.getTweetUserCount();
 	}
 	
 	/**************************************************************************
@@ -129,56 +135,62 @@ public class SsmController {
 	 * 功能地址：syslog.do?pagenum=n （GET）
 	 * 功能说明： 获取某一页的日志数据，按UI原型固定每页10条
 	 * 输入参数: pagenum整型从1开始，必选参数
-	 * 输出结果：日志数据JSON数组，字段参见syslogs表
+	 * 输出结果：JSON对象，含三个字段：
+	 *        resultList: 日志数据JSON数组，字段参见syslogs表
+	 *        pageCount: 日志数据总页数
+	 *        curPageNum: 与传入参数pagenum一致，表示当前返回数据所在的页数
 	 * ************************************************************************/
-	@RequestMapping(value="syslog", method=RequestMethod.GET, produces="application/text;charset=UTF-8")
-	public @ResponseBody String getSysLogs(@RequestParam Integer pagenum) throws IOException {
-		if (pagenum == null) return "";
-		List<SysLogs> logs = ssmService.getSysLog(pagenum);
-		return this.BeanToJson(logs==null?"":logs);
-	}
-	
-	@RequestMapping(value="syslogpagecount", method=RequestMethod.GET)
-	public @ResponseBody int getSysLogsPageCount() {
-		return 2;
+	@RequestMapping(value="syslog", method=RequestMethod.GET, produces="application/json;charset=UTF-8")
+	public @ResponseBody ResultWithPageInfo<SysLogs> getSysLogs(@RequestParam Integer pagenum) throws IOException {
+		ResultWithPageInfo<SysLogs> result = new ResultWithPageInfo<SysLogs>();
+		
+		if ((pagenum != null) && (pagenum >0)) {
+			result.resultList = ssmService.getSysLog(pagenum);
+			result.pageCount = ssmService.getPageCount(SsmService.TABLE_SYSLOGS, -1);
+			result.curPageNum = pagenum;
+		}
+		return result;
 	}
 	
 	/**************************************************************************
 	 * 功能地址：sysuser.do?pagenum=n （GET）
 	 * 功能说明： 获取某一页的系统用户数据，按UI原型固定每页8条
 	 * 输入参数: pagenum整型从1开始，必选参数
-	 * 输出结果：用户数据JSON数组，字段参见sysusers表
+	 * 输出结果：同上
 	 * ************************************************************************/
-	@RequestMapping(value="sysuser", method=RequestMethod.GET, produces="application/text;charset=UTF-8")
-	public @ResponseBody String getSysUsers(@RequestParam Integer pagenum) throws IOException {
-		if (pagenum == null) return "";
-		List<SysUsers> logs = ssmService.getSysUser(pagenum);
-		return this.BeanToJson(logs==null?"":logs);
+	@RequestMapping(value="sysuser", method=RequestMethod.GET, produces="application/json;charset=UTF-8")
+	public @ResponseBody ResultWithPageInfo<SysUsers> getSysUsers(@RequestParam Integer pagenum) throws IOException {
+		ResultWithPageInfo<SysUsers> result = new ResultWithPageInfo<SysUsers>();
+
+		if ((pagenum != null) && (pagenum >0)) {
+			result.resultList = ssmService.getSysUser(pagenum);
+			result.curPageNum = pagenum;
+			result.pageCount = ssmService.getPageCount(SsmService.TABLE_SYSUSERS, -1);
+		}
+		
+		return result;
 	}
-	
-	@RequestMapping(value="sysuserpagecount", method=RequestMethod.GET)
-	public @ResponseBody int getSysUsersPageCount() {
-		return 2;
-	}
-	
+
 	/**************************************************************************
 	 * 功能地址：sinauser.do?pagenum=n&status=n （GET）
 	 * 功能说明： 获取某一页的新浪微博用户数据，按UI原型固定每页8条
 	 * 输入参数: pagenum整型从1开始，必选参数；
 	 *        status整型，用户状态：1未使用，0已使用，-1为所有。可选参数，不设置时默认为-1
-	 * 输出结果：微博用户数据JSON数组，字段参见tweet_users表
+	 * 输出结果：同上
 	 * ************************************************************************/
-	@RequestMapping(value="sinauser", method=RequestMethod.GET, produces="application/text;charset=UTF-8")
-	public @ResponseBody String getSinaUsers(@RequestParam Integer pagenum, @RequestParam(required=false) Integer status) throws IOException {
+	@RequestMapping(value="sinauser", method=RequestMethod.GET, produces="application/json;charset=UTF-8")
+	public @ResponseBody ResultWithPageInfo<SinaUsers> getSinaUsers(@RequestParam Integer pagenum, @RequestParam(required=false) Integer status) throws IOException {
 		if (status == null) status = -1;
-		List<SinaUsers> sinaUsers = ssmService.getSinaUser(pagenum, status);
-		return this.BeanToJson(sinaUsers==null?"":sinaUsers);
+		ResultWithPageInfo<SinaUsers> result = new ResultWithPageInfo<SinaUsers>();
+
+		if ((pagenum != null) && (pagenum >0)) {
+			result.resultList = ssmService.getSinaUser(pagenum, status);
+			result.curPageNum = pagenum;
+			result.pageCount = ssmService.getPageCount(SsmService.TABLE_SINAUSERS, status);
+		}
+		return result;
 	}
 	
-	@RequestMapping(value="sinauserpagecount", method=RequestMethod.GET)
-	public @ResponseBody int getSinaUsersPageCount() {
-		return 2;
-	}
 	
 	/**************************************************************************
 	 * 功能地址：start.do （GET）

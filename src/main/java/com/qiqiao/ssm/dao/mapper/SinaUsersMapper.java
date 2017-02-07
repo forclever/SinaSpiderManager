@@ -56,5 +56,7 @@ public interface SinaUsersMapper {
     int updateByPrimaryKey(SinaUsers record);
     
     List<SinaUsers> selectByRowBounds(@Param("offset") Integer offset, @Param("status") Integer status);
+    
+    int selectCount(@Param("status") Integer status);
 
 }

@@ -162,4 +162,8 @@
   	limit #{offset, jdbcType=INTEGER}, 10 
   	
   </select>
+  
+  <select id="selectCount" resultType="java.lang.Integer">
+  	select count(*) from sys_logs where msgtype='INFO'
+  </select>
 </mapper>

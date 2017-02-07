@@ -128,4 +128,10 @@
     </if>
     limit #{offset, jdbcType=INTEGER}, 8
   </select>
+  <select id="selectCount" resultType="java.lang.Integer">
+  	select count(*) from sina_users
+  	<if test="status != -1">
+        where avaiable = #{status, jdbcType=INTEGER}
+    </if>
+  </select>
 </mapper>

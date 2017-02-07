@@ -10,16 +10,16 @@
 		var sysUsers=Object();
 		sysUsers.suid="Admin";
 		sysUsers.pwd="1234";
-		alert("JSON String: " + JSON.stringify(sysUsers));
+		//alert("JSON String: " + JSON.stringify(sysUsers));
 		//alert("JSON Object: " + sysUsers);
 		$.ajax({
-			type:"POST",
-			url: "login.do",
-			contentType: "application/json;charset=UTF-8",
-			data: '{"suid":"Admin", "pwd":"123"}',
-			//dataType:"text;char",
+			type:"GET",
+			url: "sinauser.do?pagenum=1",
+			//contentType: "application/json;charset=UTF-8",
+			//data: '{"suid":"Admin", "pwd":"123"}',
+			//dataType:"application/json;charset=UTF-8",
 			success: function(data) {
-				alert(data);
+				alert(JSON.stringify(data));
 				},
 			error: function() {alert("error")}
 		}); 

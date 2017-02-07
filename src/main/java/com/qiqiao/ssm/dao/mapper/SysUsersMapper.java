@@ -54,4 +54,6 @@ public interface SysUsersMapper {
     int updateByPrimaryKey(SysUsers record);
     
     List<SysUsers> selectByRowBounds(int offset);
+    
+    int selectCount();
 }

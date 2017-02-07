@@ -93,7 +93,7 @@ public class SsmService {
 	}
 	
 	//获取用户总数量
-	public int getUserCount() {
+	public int getTweetUserCount() {
 		return tweetUsersMapper.selectCount();
 	}
 	
@@ -115,19 +115,25 @@ public class SsmService {
 		return result;
 	}
 	
-	public int getPageCount(int type) {
-		int result = 0;
+	//sinaUserStatus： 1未使用，0已使用，-1参数忽略(全部)
+	public int getPageCount(int type, int sinaUserStatus) {
+		Double result = 0.0;
+		int status = sinaUserStatus;
 		switch(type) {
 			case TABLE_SYSLOGS:
+				int sysLogCount = sysLogsMapper.selectCount();
+				result = Math.ceil(sysLogCount/10.0);
 				break;
 			case TABLE_SYSUSERS:
-				 
+				int sysUserCount = sysUsersMapper.selectCount();
+				result = Math.ceil(sysUserCount/8.0);
 				break;
 			case TABLE_SINAUSERS:
-				
+				int sinaUsersCount = sinaUsersMapper.selectCount(status);
+				result = Math.ceil(sinaUsersCount/8.0);
 				break;
 		}
-		return result;
+		return result.intValue();
 	}
 	
 	//获取系统用户

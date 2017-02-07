@@ -113,4 +113,7 @@
   	<include refid="Base_Column_List" />
   	from sys_users limit #{offset, jdbcType=INTEGER}, 8 
   </select>
+  <select id="selectCount" resultType="java.lang.Integer">
+    select count(*) from sys_users
+  </select>
 </mapper>

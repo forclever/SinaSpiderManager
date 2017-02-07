@@ -54,4 +54,6 @@ public interface SysLogsMapper {
     int updateByPrimaryKey(SysLogs record);
     
     List<SysLogs> selectByRowBounds(Integer offset);
+    
+    int selectCount();
 }
