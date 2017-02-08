@@ -34,8 +34,9 @@ var comNotice = {
 var MarkTip = {
     init: function(p,fun,btn) {
         var modTip = $("<div/>").addClass("mod-pop").appendTo("body");
+        p.sc&&modTip.addClass(p.sc);
         var modMark = $("<div/>").addClass("pop-mark").appendTo("body");
-        var tipHd=$("<div/>").addClass("pop-hd").append('<h2>'+ p.title+'</h2><a href="javascript:;" class="btn btn-close">X</a>').appendTo(modTip);
+        p.title&&$("<div/>").addClass("pop-hd").append('<h2>'+ p.title+'</h2><a href="javascript:;" class="btn btn-close">X</a>').appendTo(modTip);
         var tipBd = $("<div/>").addClass("pop-bd").append(p.bd).appendTo(modTip);
         var tipFt = $("<div/>").addClass("pop-ft").appendTo(modTip);
         var btn1='<a href="javascript:;" class="btn btn-cancel" data-click="cancel">取消</a>';
@@ -110,4 +111,15 @@ var formatTemplate = function(data, tmpl) {
             if (!m2) return "";
             return (format && format[m2]) ? format[m2](data[m2]) : data[m2]
         })
+};
+
+var addCommas=function(nStr){
+    nStr += '';
+    var x = nStr.split('.');
+    var x1 = x[0],x2 = x[1];
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1,$2');
+    }
+    return x1 + (x2 ?'.' + x2.replace(/(\d{3})(?=[^$])/g,'$1,') : '');
 };

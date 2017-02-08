@@ -9,7 +9,7 @@ wb.login={
             if(1==sessionStorage.getItem("weiboLogin")){
                 $(".mod-login").hide();
                 $(".mod-warp").show();
-                wb.main.init();
+                wb.main.page.i();
             }else{
                 $(".mod-login").show();
                 $(".mod-warp").hide();
@@ -56,7 +56,7 @@ wb.login={
                         sessionStorage.setItem("weiUser",d.UserName);
                         sessionStorage.setItem("weiTime",(new Date()).Format("yyyy-MM-dd hh:mm:ss"));
                         //执行主模块
-                        wb.main.init();
+                        wb.main.page.i();
                     }else{
                         $(".login-err").empty().append(d.LoginMessage);
                     }
@@ -72,7 +72,7 @@ wb.main={
         u:""
     },
     init:function(){
-        this.page.i();
+        //this.page.i();
         this.btn.i();
     },
     page:{
@@ -306,6 +306,13 @@ wb.main={
                 });
             });
             body.on("click",".mcd-s-1 .btn-pull",function(){
+                var mp={};
+                mp.sc="minPop";
+                mp.bd="确定取消抓取吗";
+                MarkTip.init(mp,"pullCancel");
+            });
+            body.on("click",".btn[data-click='pullCancel']",function(){
+                MarkTip.close();
                 webStop(function () {
                     $(".mcd-hd").removeClass("mcd-s-1").addClass("mcd-s-2");
                     $(".mc-stxt").text("已取消抓取");
@@ -323,9 +330,11 @@ wb.main={
                     //工作时长暂时假数据
                     $(".mcd-num[data-count='time']").html("23,456");
                     usercount(function(n){
+                        n=addCommas(n);
                         $(".mcd-num[data-count='user']").html(n);
                     });
                     tweetcount(function (n) {
+                        n=addCommas(n);
                         $(".mcd-num[data-count='tweet']").html(n);
                     });
                     if(sessionStorage.getItem("webStart")==1){
@@ -434,3 +443,5 @@ wb.main={
         }
     }
 };
+
+wb.main.btn.i();
