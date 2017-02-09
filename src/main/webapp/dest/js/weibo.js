@@ -10,6 +10,7 @@ wb.login={
                 $(".mod-login").hide();
                 $(".mod-warp").show();
                 wb.main.page.i();
+                $("body").removeClass("unlogin")
             }else{
                 $(".mod-login").show();
                 $(".mod-warp").hide();
@@ -61,6 +62,38 @@ wb.login={
                         $(".login-err").empty().append(d.LoginMessage);
                     }
                 });
+            });
+            $(document).on("keydown", ".unlogin",function(event) {
+                if (event.keyCode=="13"){
+                    if(isinputnull.init("ipt-user")){
+                        return comNotice.init("账号为空！")
+                    }
+                    if(isinputnull.init("ipt-pwd")){
+                        return comNotice.init("密码为空！")
+                    }
+                    var d={
+                        "suid" :$(".ipt-user").val(),
+                        "pwd" :$(".ipt-pwd").val()
+                    };
+                    loginData(JSON.stringify(d),function(){
+                        comNotice.init("",true);
+                    },function(d){
+                        comNotice.close();
+                        if(0==d.LoginCode){
+                            $(".mod-login").hide();
+                            $(".mod-warp").show();
+                            sessionStorage.setItem("webUid",$(".ipt-user").val());
+                            sessionStorage.setItem("webPwd",$(".ipt-pwd").val());
+                            sessionStorage.setItem("weiboLogin",1);
+                            sessionStorage.setItem("weiUser",d.UserName);
+                            sessionStorage.setItem("weiTime",(new Date()).Format("yyyy-MM-dd hh:mm:ss"));
+                            //执行主模块
+                            wb.main.page.i();
+                        }else{
+                            $(".login-err").empty().append(d.LoginMessage);
+                        }
+                    });
+                }
             })
         }
     }
@@ -188,7 +221,6 @@ wb.main={
                 var suid=$(this).data("suid");
                 delUser(suid,function(){comNotice.init("",true)},function(d){
                     comNotice.close();
-                  console.log(d);
                     if(0==d){
                         comNotice.init("删除失败！")
                     }else if(2==d){
@@ -271,9 +303,7 @@ wb.main={
             });
             body.on("click",".s-list li", function (e) {
                 e.stopPropagation();
-                var txt=$(this).text();
                 wb.main.d.s=$(this).data("type");
-                $(".state-select span").text(txt);
                 $(".state-select").removeClass("active");
                 _this.d(2);
             });
@@ -328,7 +358,7 @@ wb.main={
                 case 0:
                     b.empty().append($("#mc0").html());
                     //工作时长暂时假数据
-                    $(".mcd-num[data-count='time']").html("23,456");
+                    $(".mcd-num[data-count='time']").html("56");
                     usercount(function(n){
                         n=addCommas(n);
                         $(".mcd-num[data-count='user']").html(n);
@@ -372,6 +402,14 @@ wb.main={
                 case 2:
                     var web=$("#mc2").html();
                     var wtr=$("#webTr").html();
+                    var txt="";
+                    if(wb.main.d.s==-1){
+                        txt="全部"
+                    }else if(wb.main.d.s==0){
+                        txt="已使用"
+                    }else if(wb.main.d.s==1){
+                        txt="未使用"
+                    }
                     sinauser(page,wb.main.d.s,function () {
                         comNotice.init("",true);
                     },function(d){
@@ -390,6 +428,7 @@ wb.main={
                             tb +=formatTemplate(nv,wtr);
                         });
                         $(".web-table tbody").append(tb);
+                        $(".state-select span").text(txt);
                     });
                     break;
                 case 3:

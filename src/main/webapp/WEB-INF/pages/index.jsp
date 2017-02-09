@@ -9,7 +9,7 @@
     <script src="<%=request.getContextPath()%>/dest/js/jquery.min.js"></script>
     <script src="<%=request.getContextPath()%>/dest/js/base.js"></script>
 </head>
-<body>
+<body class="unlogin">
 <div class="mod-login" style="display: none;">
     <div class="login-hd">实时微博数据采集系统<br/>Real-time Weibo Data Collection System</div>
     <div class="login-bd">
