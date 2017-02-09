@@ -1,8 +1,16 @@
 package com.qiqiao.ssm.controller;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +30,8 @@ import com.qiqiao.ssm.service.SsmService;
 
 @Controller
 public class SsmController {
+	Logger logger = Logger.getLogger(this.getClass());
+	
 	@Autowired
 	private SsmService ssmService;
 	
@@ -223,9 +233,31 @@ public class SsmController {
 			result =2;
 		}
 		else {
-			Runtime rt = Runtime.getRuntime();
-		    scrapyProcess = rt.exec(new String[] {"cmd", "/c", "start", "python"});
-		    if (scrapyProcess != null) result = 1;
+			//Runtime rt = Runtime.getRuntime();
+		    //scrapyProcess = rt.exec(new String[] {"cmd", "/c", "start", "C:\\Python27\\python.exe C:\\SinaSpider\\Begin.py"});
+		    ProcessBuilder pb = new ProcessBuilder();
+		    pb.command(new String[] {"C:\\Python27\\python.exe", "C:\\SinaSpider\\Begin.py"});
+		    pb.directory(new File("C:\\SinaSpider"));
+		    
+		    pb.redirectOutput(new File("c:\\SinaSpider\\web_output.log"));
+		    pb.redirectError(new File("c:\\SinaSpider\\web_error.log"));
+		    
+		    scrapyProcess = pb.start();
+		    
+		    if (scrapyProcess != null) {
+            /* BufferedReader br = new BufferedReader(new InputStreamReader(scrapyProcess.getErrorStream()));
+		    	String line = null;
+		    	ArrayList<String> lines = new ArrayList<String>();
+		    	while ((line = br.readLine()) != null) {
+		    		lines.add(line);
+		    		System.out.println(line);
+		    	}
+		    	
+		    	Path file = Paths.get("c:\\SinaSpider\\weblog.log");
+	    		Files.write(file, lines, Charset.forName("UTF-8"));*/
+		    	result = 1;
+		    }
+		    
 		}
 		return result;
 	}
